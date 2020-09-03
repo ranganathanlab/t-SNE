@@ -12,6 +12,7 @@ end
 re=re(msaheader);
 re(isinf(re))=nan;
 
+rng default % for reproducibility
 X_tsne = tsne(v_traj_onehot);
 
 % color for scattering
