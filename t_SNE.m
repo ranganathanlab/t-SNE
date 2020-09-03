@@ -43,6 +43,7 @@ ylabel('t-SNE 2');
 colorbar('XTickLabel',linspace(-2.63,-0.573,10),'XTick',linspace(0,10,10));
 hold off
 
+% group according to functions
 proteins = ["Drebrins and related actin binding proteins",
  "Cdc42-interacting protein CIP4",
  "Ras1 guanine nucleotide exchange factor",
@@ -73,7 +74,7 @@ gscatter(X_tsne(l==1,1),X_tsne(l==1,2), pro_group(l==1),clist_rgb1);
 xlabel('t-SNE 1');
 ylabel('t-SNE 2');
 
-% phylogeny scatter
+% group according to phylogeny
 phylogen = ["Saccharomycotina", "Basidiomycota", "Pezizomycotina"];
 phy_group=strings(numel(msa),1);
 for i=1:numel(phy_group)
@@ -98,7 +99,7 @@ ylabel('t-SNE 2');
 % phylogeny & function
 gpf={pro_group(l==1 & phy_group~='Non-Dikarya'),phy_group(l==1 & phy_group~='Non-Dikarya')};
 figure(4);
-gscatter(X_tsne(l==1 & phy_group~='Non-Dikarya',1),X_tsne(l==1 & phy_group~='Non-Dikarya',2), gpf,clist_rgb,'o^ps');
+gscatter(X_tsne(l==1 & phy_group~='Non-Dikarya',1),X_tsne(l==1 & phy_group~='Non-Dikarya',2), gpf,clist_rgb,'op^');
 %sho1s = scatter(X_tsne(1194,1),X_tsne(1194,2), 40, 'red','filled','DisplayName','Sho1');
 xlabel('t-SNE 1');
 ylabel('t-SNE 2'); 
