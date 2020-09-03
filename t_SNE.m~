@@ -21,13 +21,14 @@ c(re<=-2.63)=0;
 X_tsne = tsne(v_traj_onehot);
 
 % RE scatter
-scatter(X_tsne(:,1),X_tsne(:,2), 20, c,'filled');
-hold on
+figure(1);
+hold on 
+all = scatter(X_tsne(:,1),X_tsne(:,2), 20, c,'filled');
 sho1s = scatter(X_tsne(1194,1),X_tsne(1194,2), 40, 'red','filled','DisplayName','Sho1');
+legend(sho1s);
 xlabel('t-SNE 1');
 ylabel('t-SNE 2');
 colorbar('XTickLabel',linspace(-2.63,-0.573,10),'XTick',linspace(0,10,10));
-legend(sho1s)
 hold off
 
 proteins = ["Drebrins and related actin binding proteins",
@@ -54,22 +55,47 @@ for i=1:numel(msa)
 end
 
 % protein scatter
+figure(2);
 gscatter(X_tsne(l==1,1),X_tsne(l==1,2), pro_group(l==1));
-hold on
 %legend('Functions')
 %sho1s = scatter(X_tsne(1194,1),X_tsne(1194,2), 40, 'red','filled','DisplayName','Sho1');
 xlabel('t-SNE 1');
 ylabel('t-SNE 2');
-hold off
 
 % phylogeny scatter
-phylogen = ["Saccharomycotina", "Basidiomycota", "Pezizomycotina","Non-Dikarya"];
+phylogen = ["Saccharomycotina", "Basidiomycota", "Pezizomycotina"];
 phy_group=strings(numel(msa),1);
+for i=1:numel(phy_group)
+    phy_group(i)="Non-Dikarya";
+end
 for i=1:numel(msa)
-    for j=1:10
+    for j=1:3
         if contains(char(annotation(msaheader(i),'Phylogeny').Phylogeny),phylogen(j))
-            pro_group(i)=phylogen(j);
+            phy_group(i)=phylogen(j);
             break
         end
     end
 end
+
+% Phylogeny scatter
+figure(3);
+gscatter(X_tsne(:,1),X_tsne(:,2), phy_group);
+%legend('Functions')
+%sho1s = scatter(X_tsne(1194,1),X_tsne(1194,2), 40, 'red','filled','DisplayName','Sho1');
+xlabel('t-SNE 1');
+ylabel('t-SNE 2');
+
+% phylogeny & function
+clist=['#1f77b4'; '#ff7f0e'; '#2ca02c'; '#d62728';'#9467bd';'#8c564b'; '#e377c2'; '#7f7f7f'; '#bcbd22'; '#17becf'];
+clist_rgb=zeros(30,3);
+for i=1:10
+    tmp=clist(i,:);
+    clist_rgb(3*(i-1),:)=sscanf(tmp(2:end),'%2x%2x%2x',[1 3])/255;
+end
+gpf={pro_group(l==1),phy_group(l==1)};
+figure(4);
+gscatter(X_tsne(l==1,1),X_tsne(l==1,2), gpf,clist_rgb,'o^ps');
+%legend('Functions')
+%sho1s = scatter(X_tsne(1194,1),X_tsne(1194,2), 40, 'red','filled','DisplayName','Sho1');
+xlabel('t-SNE 1');
+ylabel('t-SNE 2'); 

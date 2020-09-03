@@ -12,13 +12,24 @@ end
 re=re(msaheader);
 re(isinf(re))=nan;
 
-% color for RE scattering
+X_tsne = tsne(v_traj_onehot);
+
+% color for scattering
 c = re;
 c=10*(re+2.63)/(2.63-0.573);
 c(re>=-0.573)=10;
 c(re<=-2.63)=0;
 
-X_tsne = tsne(v_traj_onehot);
+clist=['#1f77b4'; '#ff7f0e'; '#2ca02c'; '#d62728';'#9467bd';'#8c564b'; '#e377c2'; '#7f7f7f'; '#bcbd22'; '#17becf'];
+clist_rgb1=zeros(10,3);
+clist_rgb=zeros(30,3);
+for i=1:10
+    tmp=clist(i,:);
+    clist_rgb1(i,:)=sscanf(tmp(2:end),'%2x%2x%2x',[1 3])/255;
+    clist_rgb(3*(i-1)+1,:)=sscanf(tmp(2:end),'%2x%2x%2x',[1 3])/255;
+    clist_rgb(3*(i-1)+2,:)=sscanf(tmp(2:end),'%2x%2x%2x',[1 3])/255;
+    clist_rgb(3*(i-1)+3,:)=sscanf(tmp(2:end),'%2x%2x%2x',[1 3])/255;
+end
 
 % RE scatter
 figure(1);
@@ -56,8 +67,7 @@ end
 
 % protein scatter
 figure(2);
-gscatter(X_tsne(l==1,1),X_tsne(l==1,2), pro_group(l==1));
-%legend('Functions')
+gscatter(X_tsne(l==1,1),X_tsne(l==1,2), pro_group(l==1),clist_rgb1);
 %sho1s = scatter(X_tsne(1194,1),X_tsne(1194,2), 40, 'red','filled','DisplayName','Sho1');
 xlabel('t-SNE 1');
 ylabel('t-SNE 2');
@@ -80,15 +90,14 @@ end
 % Phylogeny scatter
 figure(3);
 gscatter(X_tsne(:,1),X_tsne(:,2), phy_group);
-%legend('Functions')
 %sho1s = scatter(X_tsne(1194,1),X_tsne(1194,2), 40, 'red','filled','DisplayName','Sho1');
 xlabel('t-SNE 1');
 ylabel('t-SNE 2');
 
 % phylogeny & function
+gpf={pro_group(l==1 & phy_group~='Non-Dikarya'),phy_group(l==1 & phy_group~='Non-Dikarya')};
 figure(4);
-gscatter(X_tsne(l==1,1),X_tsne(l==1,2), pro_group(l==1),'rgbcmykrgb','hdsp');
-%legend('Functions')
+gscatter(X_tsne(l==1 & phy_group~='Non-Dikarya',1),X_tsne(l==1 & phy_group~='Non-Dikarya',2), gpf,clist_rgb,'o^ps');
 %sho1s = scatter(X_tsne(1194,1),X_tsne(1194,2), 40, 'red','filled','DisplayName','Sho1');
 xlabel('t-SNE 1');
 ylabel('t-SNE 2'); 
