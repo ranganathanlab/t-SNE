@@ -1,7 +1,7 @@
-annotation=load('Input/annotation.mat').annotationvF;
-msa=fastaread('Input/fungi_59.fasta'); % Sho1 is No. 1194; header ID 1277
-re=load('Input/re.mat').re;
-v_traj_onehot=load('Input/onehot.mat').v_traj_onehot;
+annotation=load('Input/SH3_fungi/annotation.mat').annotationvF;
+msa=fastaread('Input/SH3_fungi/fungi_59.fasta'); % Sho1 is No. 1194; header ID 1277
+re=load('Input/SH3_fungi/re.mat').re;
+v_traj_onehot=load('Input/SH3_fungi/onehot.mat').v_traj_onehot;
 v_traj_onehot=double(v_traj_onehot);
 
 msaheader=zeros(numel(msa),1);
