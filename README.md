@@ -5,3 +5,9 @@ Supplementary data analysis for the VAE design paper https://www.biorxiv.org/con
 
 20201023 update:
 Add t-SNE for chorismate mutase.
+
+20230407 update:
+
+Analyzed new data using 3D t-SNE, corresponding to 3D InfoVAE latent space
+
+Move old analysis to branch old.
